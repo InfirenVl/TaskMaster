@@ -1,43 +1,25 @@
-package com.infiren.taskmaster.entity;
+package com.infiren.taskmaster.object.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.infiren.taskmaster.object.entity.TaskEntity;
 import tools.jackson.databind.annotation.JsonDeserialize;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@JsonDeserialize(builder = TaskEntity.Builder.class)
-public class TaskEntity implements Serializable {
-    private final Integer id;
+@JsonDeserialize(builder = TaskDTO.Builder.class)
+public class TaskDTO implements Serializable {
     private final Integer creatorId;
     private final Integer assignedUserId;
     private final String title;
     private final String description;
-    public final Priority priority;
-    public final Status status;
+    private final TaskEntity.Priority priority;
+    private final TaskEntity.Status status;
     private final LocalDateTime createdDateTime;
     private final LocalDateTime completedDateTime;
     private final LocalDateTime deadlineDate;
 
-
-    private TaskEntity(Builder builder) {
-        this.id = builder.id;
-        this.creatorId = builder.creatorId;
-        this.assignedUserId = builder.assignedUserId;
-        this.title = builder.title;
-        this.description = builder.description;
-        this.createdDateTime = builder.createdDateTime;
-        this.completedDateTime = builder.completedDateTime;
-        this.deadlineDate = builder.deadlineDate;
-        this.priority = builder.priority;
-        this.status = builder.status;
-    }
-
     public static class Builder{
-        @JsonProperty("id")
-        private Integer id;
-
         @JsonProperty("creatorId")
         private Integer creatorId;
 
@@ -60,18 +42,10 @@ public class TaskEntity implements Serializable {
         private LocalDateTime deadlineDate;
 
         @JsonProperty("priority")
-        private Priority priority;
+        private TaskEntity.Priority priority;
 
         @JsonProperty("status")
-        private Status status;
-
-        public Builder id(final Integer id) {
-            if (id == null || id<0){
-                throw new IllegalArgumentException("Id can't be not null or less 0");
-            }
-            this.id = id;
-            return this;
-        }
+        private TaskEntity.Status status;
 
         public Builder creatorId(final Integer creatorId){
             if (creatorId == null || creatorId<0){
@@ -107,12 +81,12 @@ public class TaskEntity implements Serializable {
             return this;
         }
 
-        public Builder priority(final Priority priority){
+        public Builder priority(final TaskEntity.Priority priority){
             this.priority = priority;
             return this;
         }
 
-        public Builder status(final Status status){
+        public Builder status(final TaskEntity.Status status){
             this.status = status;
             return this;
         }
@@ -127,31 +101,10 @@ public class TaskEntity implements Serializable {
             return this;
         }
 
-        public TaskEntity build(){
-            return new TaskEntity(this);
+        public TaskDTO build(){
+            return new TaskDTO(this);
         }
 
-    }
-
-    public enum Priority {
-        FIRST,
-        HIGH,
-        MEDIUM,
-        LOW
-    }
-
-    public enum Status {
-        CREATED,
-        IN_PROGRESS,
-        COMPLETED
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public Integer getCreatorId() {
@@ -166,19 +119,39 @@ public class TaskEntity implements Serializable {
         return title;
     }
 
-    public LocalDateTime getCreatedDateTime() {
-        return createdDateTime;
+    public String getDescription() {
+        return description;
     }
 
-    public LocalDateTime getCompletedDateTime() {
-        return completedDateTime;
+    public TaskEntity.Priority getPriority() {
+        return priority;
     }
 
     public LocalDateTime getDeadlineDate() {
         return deadlineDate;
     }
 
+    public LocalDateTime getCompletedDateTime() {
+        return completedDateTime;
+    }
 
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
+    }
 
+    public TaskEntity.Status getStatus() {
+        return status;
+    }
+
+    private TaskDTO(Builder builder) {
+        this.creatorId = builder.creatorId;
+        this.assignedUserId = builder.assignedUserId;
+        this.title = builder.title;
+        this.description = builder.description;
+        this.priority = builder.priority;
+        this.status = builder.status;
+        this.createdDateTime = builder.createdDateTime;
+        this.completedDateTime = builder.completedDateTime;
+        this.deadlineDate = builder.deadlineDate;
+    }
 }
-
