@@ -1,7 +1,6 @@
 package com.infiren.taskmaster.service;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.infiren.taskmaster.object.dto.TaskDTO;
+import com.infiren.taskmaster.object.dto.TaskDto;
 import com.infiren.taskmaster.object.entity.TaskEntity;
 import com.infiren.taskmaster.object.mapper.ObjectMapper;
 import com.infiren.taskmaster.repository.TaskRepository;
@@ -10,10 +9,7 @@ import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class TaskService {
@@ -28,12 +24,13 @@ public class TaskService {
         this.objectMapper = objectMapper;
     }
 
-    public List<TaskDTO> getTaskList() {
+    public List<TaskDto> getTaskList() {
         List<TaskEntity> allTasks = taskRepository.findAll();
 
-        List<TaskDTO> tasksList = allTasks.stream()
+
+        List<TaskDto> tasksList = allTasks.stream()
                 .map(taskEntity ->
-                        new TaskDTO.Builder()
+                        new TaskDto.Builder()
                                 .creatorId(taskEntity.getCreatorId())
                                 .assignedUserId(taskEntity.getAssignedUserId())
                                 .title(taskEntity.getTitle())
@@ -47,27 +44,26 @@ public class TaskService {
                 ).toList();
 
         if (tasksList.isEmpty()) {
-            throw new NoSuchElementException("Tasks is empty");
+            throw new EntityNotFoundException("Tasks List is empty");
         }
 
         return tasksList;
     }
 
-    public TaskDTO getTaskById(int id) {
+    public TaskDto getTaskById(int id) {
 
         TaskEntity existingTask = getExistingTask(id);
-
         return objectMapper.mapTaskEntityToTaskDto(existingTask);
     }
 
-    public TaskDTO createTask(TaskDTO taskToCreate) {
+    public TaskDto createTask(TaskDto taskToCreate) {
         TaskEntity task = taskRepository.save(
                 objectMapper.mapTaskDtoToTaskEntity(taskToCreate)
         );
         return objectMapper.mapTaskEntityToTaskDto(task);
     }
 
-    public TaskDTO updateTask(int id, @NonNull TaskDTO taskToUpdate) {
+    public TaskDto updateTask(int id, @NonNull TaskDto taskToUpdate) {
 
         TaskEntity existingTask = getExistingTask(id);
 
@@ -95,7 +91,7 @@ public class TaskService {
         return objectMapper.mapTaskEntityToTaskDto(updatedTask);
     }
 
-    public TaskDTO updateTaskStatus(int id, TaskEntity.Status newStatus){
+    public TaskDto updateTaskStatus(int id, TaskEntity.Status newStatus){
 
 
         TaskEntity existingTask = getExistingTask(id);
@@ -126,7 +122,7 @@ public class TaskService {
         return objectMapper.mapTaskEntityToTaskDto(updatedTask);
     }
 
-    public TaskDTO startTask(int id) {
+    public TaskDto startTask(int id) {
 
         TaskEntity existingTask = getExistingTask(id);
 
@@ -137,7 +133,7 @@ public class TaskService {
         List<TaskEntity> taskList = taskRepository.findByAssignedUserIdAndStatus(existingTask.getAssignedUserId(), TaskEntity.Status.IN_PROGRESS);
 
         if (taskList.size()>=4){
-            throw new IndexOutOfBoundsException("No more active task");
+            throw new IllegalArgumentException("No more active task for this user " + existingTask.getAssignedUserId());
         }
 
         TaskEntity startedTask = new TaskEntity.Builder()
@@ -160,8 +156,7 @@ public class TaskService {
 
     public Boolean deleteTask(int id) {
 
-        TaskEntity existingTask = taskRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Task not found: " + id));
+        TaskEntity existingTask = getExistingTask(id);
 
        taskRepository.delete(existingTask);
 

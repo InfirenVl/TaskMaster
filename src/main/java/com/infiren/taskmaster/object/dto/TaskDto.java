@@ -2,21 +2,43 @@ package com.infiren.taskmaster.object.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.infiren.taskmaster.object.entity.TaskEntity;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
 import tools.jackson.databind.annotation.JsonDeserialize;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@JsonDeserialize(builder = TaskDTO.Builder.class)
-public class TaskDTO implements Serializable {
+@JsonDeserialize(builder = TaskDto.Builder.class)
+public class TaskDto implements Serializable {
+    @NotNull
     private final Integer creatorId;
+
+    @NotNull
     private final Integer assignedUserId;
+
+    @NotNull
     private final String title;
+
+    @Nullable
     private final String description;
+
+    @NotNull
     private final TaskEntity.Priority priority;
+
+    @NotNull
     private final TaskEntity.Status status;
+
+    @FutureOrPresent
+    @NotNull
     private final LocalDateTime createdDateTime;
+
+    @Future
     private final LocalDateTime completedDateTime;
+
+    @Nullable
     private final LocalDateTime deadlineDate;
 
     public static class Builder{
@@ -101,8 +123,8 @@ public class TaskDTO implements Serializable {
             return this;
         }
 
-        public TaskDTO build(){
-            return new TaskDTO(this);
+        public TaskDto build(){
+            return new TaskDto(this);
         }
 
     }
@@ -143,7 +165,7 @@ public class TaskDTO implements Serializable {
         return status;
     }
 
-    private TaskDTO(Builder builder) {
+    private TaskDto(Builder builder) {
         this.creatorId = builder.creatorId;
         this.assignedUserId = builder.assignedUserId;
         this.title = builder.title;

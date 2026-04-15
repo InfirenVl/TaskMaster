@@ -7,6 +7,10 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -20,7 +24,7 @@ public class TaskEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final Integer id;
 
-    @Nonnull
+    @NotNull
     @Column(name = "creator_id")
     private final Integer creatorId;
 
@@ -28,7 +32,7 @@ public class TaskEntity implements Serializable {
     @Column(name = "assigned_user_id")
     private final Integer assignedUserId;
 
-    @Nonnull
+    @NotNull
     @Column(name = "title")
     private final String title;
 
@@ -36,21 +40,23 @@ public class TaskEntity implements Serializable {
     @Column(name = "description")
     private final String description;
 
-    @Nonnull
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "priority")
     private final Priority priority;
 
-    @Nonnull
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private final Status status;
 
-    @Nonnull
+    @NotNull
+    @FutureOrPresent
     @Column(name = "created_date_time")
     private final LocalDateTime createdDateTime;
 
     @Nullable
+    @Future
     @Column(name = "completed_date_time")
     private final LocalDateTime completedDateTime;
 
@@ -193,6 +199,11 @@ public class TaskEntity implements Serializable {
         @JsonCreator
         public static Status fromObject(Map<String, Object> props) {
             return Status.valueOf((String) props.get("status"));
+        }
+
+        @JsonCreator
+        public static Status fromString(String value) {
+            return Status.valueOf(value.toUpperCase());
         }
     }
 
