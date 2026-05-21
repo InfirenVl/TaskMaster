@@ -13,9 +13,6 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends JpaRepository<TaskEntity, Integer> {
 
-    @Query("select t from TaskEntity t where t.assignedUserId = ?1")
-    List<TaskEntity> findByAssignedUserId(Integer assignedUserId);
-
     //@Query("select t from TaskEntity t where t.assignedUserId = ?1 and t.status = ?2")
     List<TaskEntity> findByAssignedUserIdAndStatus(Integer assignedUserId, TaskEntity.Status status);
 
@@ -24,4 +21,7 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Integer> {
 //            where t.id = :id
 //            """)
 //    void setStatus(@Param("id") Integer id, @Param("status")TaskEntity.Status status);
+
+//    @Query("select t from TaskEntity t where t.assignedUserId = ?1")
+//    List<TaskEntity> findByAssignedUserId(Integer assignedUserId);
 }

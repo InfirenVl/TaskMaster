@@ -7,20 +7,21 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class ObjectMapper {
+public class TaskMapper {
 
     public TaskEntity mapTaskDtoToTaskEntity(@NonNull TaskDto taskDtoToMap) {
-        return new TaskEntity.Builder()
-                .creatorId(taskDtoToMap.getCreatorId())
-                .assignedUserId(taskDtoToMap.getAssignedUserId())
-                .title(taskDtoToMap.getTitle())
-                .description(taskDtoToMap.getDescription())
-                .priority(taskDtoToMap.getPriority())
-                .status(taskDtoToMap.getStatus())
-                .createdDateTime(taskDtoToMap.getCreatedDateTime())
-                .completedDateTime(taskDtoToMap.getCompletedDateTime())
-                .deadlineDate(taskDtoToMap.getDeadlineDate())
-                .build();
+         TaskEntity task = new TaskEntity();
+                task.setCreatorId(taskDtoToMap.getCreatorId());
+                task.setAssignedUserId(taskDtoToMap.getAssignedUserId());
+                task.setTitle(taskDtoToMap.getTitle());
+                task.setDescription(taskDtoToMap.getDescription());
+                task.setPriority(taskDtoToMap.getPriority());
+                task.setStatus(taskDtoToMap.getStatus());
+                task.setCreatedDateTime(taskDtoToMap.getCreatedDateTime());
+                task.setCompletedDateTime(taskDtoToMap.getCompletedDateTime());
+                task.setDeadlineDate(taskDtoToMap.getDeadlineDate());
+
+        return task;
     }
 
     public TaskDto mapTaskEntityToTaskDto(@NonNull TaskEntity taskEntityToMap) {

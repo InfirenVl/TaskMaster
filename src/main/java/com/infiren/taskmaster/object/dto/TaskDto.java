@@ -6,11 +6,13 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
 import tools.jackson.databind.annotation.JsonDeserialize;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+@Getter
 @JsonDeserialize(builder = TaskDto.Builder.class)
 public class TaskDto implements Serializable {
     @NotNull
@@ -31,8 +33,7 @@ public class TaskDto implements Serializable {
     @NotNull
     private final TaskEntity.Status status;
 
-    @FutureOrPresent
-    @NotNull
+    @Nullable
     private final LocalDateTime createdDateTime;
 
     @Future
@@ -129,42 +130,6 @@ public class TaskDto implements Serializable {
 
     }
 
-    public Integer getCreatorId() {
-        return creatorId;
-    }
-
-    public Integer getAssignedUserId() {
-        return assignedUserId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public TaskEntity.Priority getPriority() {
-        return priority;
-    }
-
-    public LocalDateTime getDeadlineDate() {
-        return deadlineDate;
-    }
-
-    public LocalDateTime getCompletedDateTime() {
-        return completedDateTime;
-    }
-
-    public LocalDateTime getCreatedDateTime() {
-        return createdDateTime;
-    }
-
-    public TaskEntity.Status getStatus() {
-        return status;
-    }
-
     private TaskDto(Builder builder) {
         this.creatorId = builder.creatorId;
         this.assignedUserId = builder.assignedUserId;
@@ -176,4 +141,21 @@ public class TaskDto implements Serializable {
         this.completedDateTime = builder.completedDateTime;
         this.deadlineDate = builder.deadlineDate;
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj) {
+//            return true;
+//        }
+//
+//        if (!(obj instanceof TaskDto)){
+//            return false;
+//        }
+//
+//    }
 }
