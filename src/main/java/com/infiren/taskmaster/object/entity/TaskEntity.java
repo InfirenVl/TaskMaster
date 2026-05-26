@@ -36,9 +36,9 @@ public class TaskEntity {
     @Column(name = "assigned_user_id")
     private Integer assignedUserId;
 
-//    @NotNull
-//    @Column(name = "project_id")
-//    private Integer projectID;
+    @NotNull
+    @Column(name = "project_id")
+    private Integer projectID;
 
     @NotNull
     @Column(name = "title")

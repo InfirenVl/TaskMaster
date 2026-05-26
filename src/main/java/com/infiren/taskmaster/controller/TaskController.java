@@ -1,5 +1,6 @@
 package com.infiren.taskmaster.controller;
 
+import com.infiren.taskmaster.object.dto.StatusUpdateDto;
 import com.infiren.taskmaster.object.dto.TaskDto;
 import com.infiren.taskmaster.object.entity.TaskEntity;
 import com.infiren.taskmaster.service.TaskService;
@@ -72,11 +73,11 @@ public class TaskController {
     @PatchMapping("/{id}/status")
     public ResponseEntity<TaskDto> updateTaskStatus(
             @PathVariable int id,
-            @RequestBody @Valid TaskEntity.Status status){
+            @RequestBody @Valid StatusUpdateDto dto){
         log.info("@PATCH - Called method updateTaskStatus");
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(taskService.updateTaskStatus(id, status));
+                .body(taskService.updateTaskStatus(id, dto.status()));
 
     }
 
