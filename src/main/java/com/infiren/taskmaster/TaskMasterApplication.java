@@ -19,26 +19,22 @@ public class TaskMasterApplication {
         SpringApplication.run(TaskMasterApplication.class, args);
     }
 
-    @GetMapping("/")
-    public String hello() {
-        return "Hello World " +
-                "Main page";
-    }
+
 
 
     /*
     Context pool printer
      */
-    @Bean
-    public CommandLineRunner init(ApplicationContext context) {
-        return args -> {
-            System.out.println("Context:" + context);
-
-            String[] beanDefinitionNames = context.getBeanDefinitionNames();
-            Arrays.sort(beanDefinitionNames);
-            for (String beanDefinitionName : beanDefinitionNames) {
-                System.out.println(beanDefinitionName);
-            }
-        };
-    }
+//    @Bean
+//    public CommandLineRunner init(ApplicationContext context) {
+//        return args -> {
+//            System.out.println("Context:" + context);
+//
+//            String[] beanDefinitionNames = context.getBeanDefinitionNames();
+//            Arrays.sort(beanDefinitionNames);
+//            for (String beanDefinitionName : beanDefinitionNames) {
+//                System.out.println(beanDefinitionName);
+//            }
+//        };
+//    }
 }
