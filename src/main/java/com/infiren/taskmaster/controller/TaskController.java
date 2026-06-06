@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -33,7 +34,7 @@ public class TaskController {
         log.info("@GET - called getTaskList()");
 
         return ResponseEntity.status(HttpStatus.OK)
-                    .body(taskService.getTaskList());
+                .body(taskService.getTaskList());
     }
 
     @GetMapping("/{id}")
@@ -41,11 +42,11 @@ public class TaskController {
         log.info("@GET - called getTaskById()");
 
         return ResponseEntity.status(HttpStatus.OK)
-                    .body(taskService.getTaskById(id));
+                .body(taskService.getTaskById(id));
     }
 
     @PostMapping("/{id}/start")
-    public ResponseEntity<TaskDto> startTask(@PathVariable int id){
+    public ResponseEntity<TaskDto> startTask(@PathVariable int id) {
         log.info("@POST - Called method startTask");
 
         return ResponseEntity.status(HttpStatus.OK).body(taskService.startTask(id));
@@ -56,7 +57,7 @@ public class TaskController {
         log.info("@POST - Called method createTask");
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(taskService.createTask(taskToCreate));
+                .body(taskService.createTask(taskToCreate));
     }
 
     @PutMapping("/{id}")
@@ -67,13 +68,13 @@ public class TaskController {
         log.info("@PUT - Called method updateTask");
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(taskService.updateTask(id, taskToUpdate));
+                .body(taskService.updateTask(id, taskToUpdate));
     }
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<TaskDto> updateTaskStatus(
             @PathVariable int id,
-            @RequestBody @Valid StatusUpdateDto dto){
+            @RequestBody @Valid StatusUpdateDto dto) {
         log.info("@PATCH - Called method updateTaskStatus");
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -86,6 +87,6 @@ public class TaskController {
         log.info("@DELETE - Called method deleteTask");
 
         return ResponseEntity.status(HttpStatus.OK)
-                    .body(taskService.deleteTask(id));
+                .body(taskService.deleteTask(id));
     }
 }
