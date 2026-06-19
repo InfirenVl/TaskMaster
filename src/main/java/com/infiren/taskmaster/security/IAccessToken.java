@@ -1,6 +1,6 @@
 package com.infiren.taskmaster.security;
 
-public interface IAccessTokenFactory<RefreshToken, AccessToken> {
+public interface IAccessToken<RefreshToken, AccessToken> {
 
     AccessToken apply(RefreshToken refreshToken);
 }

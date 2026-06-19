@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.LinkedList;
 import java.util.UUID;
 
-public class DefaultRefreshTokenFactory implements IRefreshTokenFactory<Authentication, RefreshToken> {
+public class DefaultRefreshTokenFactory implements IRefreshToken<Authentication, RefreshToken> {
 
     private final Duration tokenTtl = Duration.ofDays(1);
 

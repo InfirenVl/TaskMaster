@@ -1,6 +1,7 @@
 package com.infiren.taskmaster.controller;
 
 import com.infiren.taskmaster.object.dto.RegRequestDto;
+import com.infiren.taskmaster.object.dto.UserDto;
 import com.infiren.taskmaster.service.AuthService;
 import com.infiren.taskmaster.service.UserService;
 import org.slf4j.Logger;
@@ -18,20 +19,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private static final Logger log = LoggerFactory.getLogger(AuthController.class);
-    private final UserService userService;
+    private final AuthService authService;
 
     @Autowired
-    public AuthController(UserService userService) {
+    public AuthController(AuthService authService) {
         log.info("Constructor - AuthController()");
-        this.userService = userService;
+        this.authService = authService;
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<RegRequestDto> createUser(@RequestBody RegRequestDto newUser){
+    public ResponseEntity<UserDto> createUser(@RequestBody RegRequestDto newUser){
         log.info("@POST - createUser request");
-        return null;
 
-//        return ResponseEntity.status(HttpStatus.CREATED)
-//                .body(userService.createUser(newUser));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(authService.createUser(newUser));
     }
 }

@@ -3,7 +3,7 @@ package com.infiren.taskmaster.security;
 import java.time.Duration;
 import java.time.Instant;
 
-public class DefaultAccessTokenFactory implements IAccessTokenFactory<RefreshToken, AccessToken> {
+public class DefaultAccessTokenFactory implements IAccessToken<RefreshToken, AccessToken> {
 
     private final Duration durationTtl = Duration.ofMinutes(5);
 

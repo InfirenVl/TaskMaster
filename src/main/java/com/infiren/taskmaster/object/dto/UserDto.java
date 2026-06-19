@@ -1,4 +1,6 @@
 package com.infiren.taskmaster.object.dto;
 
-public class UserDto {
+public record UserDto(String username,
+                      String email) {
+
 }
